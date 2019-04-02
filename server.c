@@ -85,41 +85,76 @@ void service_request(message_db_t request_message){
     send_resp_to_client(response_message);
 }
 
+struct record records[];
+int count = 0;
+
 message_db_t insert_record(
         char name[MAX_CHAR_LENGTH],
         char department[MAX_CHAR_LENGTH],
         char employee_number[MAX_CHAR_LENGTH],
-        char salary[MAX_CHAR_LENGTH]){
-    perror("Insert record not implemented");
+        char salary[MAX_CHAR_LENGTH]) {
+
+    records[count].name = name;
+    records[count].department = department;
+    records[count].employee_number = employee_number;
+    records[count].salary = salary;
+    count += 1;
+
+    message_db_t message;
+    return message;
 }
 
 message_db_t check_name(char employee_number[MAX_CHAR_LENGTH]){
-    perror("Check name not implemented");
-    message_db_t message;
-    return message;
+  message_db_t message;
+  for(int i = 0; i <= count; i++) {
+    if(records[i].employee_number = employee_number) {
+      message.e = records[i].name;
+    }
+  }
+  return message;
 }
 message_db_t check_department(char employee_number[MAX_CHAR_LENGTH]){
-    perror("Check department not implemented");
-    message_db_t message;
-    return message;
+  message_db_t message;
+  for(int i = 0; i <= count; i++) {
+    if(records[i].employee_number = employee_number) {
+      message.e = records[i].department;
+    }
+  }
+  return message;
 }
 message_db_t check_salary(char employee_number[MAX_CHAR_LENGTH]){
-    perror("Check salary not implemented");
-    message_db_t message;
-    return message;
+  message_db_t message;
+  for(int i = 0; i <= count; i++) {
+    if(records[i].employee_number = employee_number) {
+      message.e = records[i].salary;
+    }
+  }
+  return message;
 }
 message_db_t check_employee_number(char name[MAX_CHAR_LENGTH]){
-    perror("Check employee number not implemented");
-    message_db_t message;
-    return message;
+  message_db_t message;
+  for(int i = 0; i <= count; i++) {
+    if(records[i].name = name) {
+      message.e = records[i].employee_number;
+    }
+  }
+  return message;
 }
 message_db_t check(char department[MAX_CHAR_LENGTH]){
-    perror("Check not implemented");
-    message_db_t message;
-    return message;
+  perror("Check not implemented");
+  message_db_t message;
+  return message;
 }
 message_db_t delete(char employee_number[MAX_CHAR_LENGTH]){
-    perror("Delete not implemented");
-    message_db_t message;
-    return message;
+  for(int i = 0; i <= count; i++) {
+    if(records[i].employee_number = employee_number) {
+      for (int c = i - 1; c < count - 1; c++) {
+        records[c] = records[c+1];
+      }
+    }
+  }
+  count -= 1;
+
+  message_db_t message;
+  return message;
 }
