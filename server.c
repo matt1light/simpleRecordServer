@@ -40,7 +40,7 @@ void service_request(message_db_t request_message){
     request_code_e type = request_message.request_type;
 
     switch(type){
-        case check_name_s:
+        case insert_record_s:
             response_message = insert_record(
                     request_message.request_record.name,
                     request_message.request_record.department,
@@ -48,7 +48,7 @@ void service_request(message_db_t request_message){
                     request_message.request_record.salary
             );
             break;
-        case insert_record_s:
+        case check_name_s:
             response_message = check_name(
                     request_message.request_record.employee_number
             );

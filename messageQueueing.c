@@ -82,14 +82,14 @@ void client_ending(){
 }
 
 
-int send_mess_to_server(message_db_t mess_to_send){
+int send_mess_to_server(const message_db_t mess_to_send){
     struct msg_passed message;
 
     message.real_message = mess_to_send;
     message.msg_key = mess_to_send.client_pid;
 
     if (msgsnd(serv_qid, (void *)&message, sizeof(mess_to_send), 0) == -1){
-        perror("Message send failed");
+        perror("Message send failed, make sure that server is running");
         return(0);
     }
     return(1);
