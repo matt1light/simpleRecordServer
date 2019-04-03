@@ -3,6 +3,7 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "structures.h"
 #include "messageQueueing.h"
 
@@ -85,8 +86,11 @@ void service_request(message_db_t request_message){
     send_resp_to_client(response_message);
 }
 
-struct record records[];
 int count = 0;
+record records[100];
+
+// message_db_t* message
+// message -> client_pid = getpid();
 
 message_db_t insert_record(
         char name[MAX_CHAR_LENGTH],
@@ -94,10 +98,10 @@ message_db_t insert_record(
         char employee_number[MAX_CHAR_LENGTH],
         char salary[MAX_CHAR_LENGTH]) {
 
-    records[count].name = name;
-    records[count].department = department;
-    records[count].employee_number = employee_number;
-    records[count].salary = salary;
+    strcpy(records[count].name, name);
+    strcpy(records[count].department, department);
+    strcpy(records[count].employee_number, employee_number);
+    strcpy(records[count].salary, salary);
     count += 1;
 
     message_db_t message;
@@ -107,7 +111,7 @@ message_db_t insert_record(
 message_db_t check_name(char employee_number[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(records[i].employee_number = employee_number) {
+    if(records[i].employee_number == employee_number) {
       message.e = records[i].name;
     }
   }
@@ -116,7 +120,7 @@ message_db_t check_name(char employee_number[MAX_CHAR_LENGTH]){
 message_db_t check_department(char employee_number[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(records[i].employee_number = employee_number) {
+    if(records[i].employee_number == employee_number) {
       message.e = records[i].department;
     }
   }
@@ -125,7 +129,7 @@ message_db_t check_department(char employee_number[MAX_CHAR_LENGTH]){
 message_db_t check_salary(char employee_number[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(records[i].employee_number = employee_number) {
+    if(records[i].employee_number == employee_number) {
       message.e = records[i].salary;
     }
   }
@@ -134,7 +138,7 @@ message_db_t check_salary(char employee_number[MAX_CHAR_LENGTH]){
 message_db_t check_employee_number(char name[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(records[i].name = name) {
+    if(records[i].name == name) {
       message.e = records[i].employee_number;
     }
   }
@@ -147,7 +151,7 @@ message_db_t check(char department[MAX_CHAR_LENGTH]){
 }
 message_db_t delete(char employee_number[MAX_CHAR_LENGTH]){
   for(int i = 0; i <= count; i++) {
-    if(records[i].employee_number = employee_number) {
+    if(records[i].employee_number == employee_number) {
       for (int c = i - 1; c < count - 1; c++) {
         records[c] = records[c+1];
       }
