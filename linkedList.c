@@ -31,8 +31,9 @@ void insertAfter(struct Node* prev_node, struct Node * new_node)
 struct Node * removeItem(struct Node* node){
     struct Node * next = node->next;
     node->prev->next = next;
-    node->next->prev = node->prev;
-    node = NULL;
+    if(node->next != NULL){
+    	node->next->prev = node->prev;
+    }
     free(node);
     return next;
 }
