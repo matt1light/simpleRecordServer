@@ -24,12 +24,6 @@ void create_check_message(char department[MAX_CHAR_LENGTH], message_db_t* messag
 
 void create_delete_message(char employee_number[MAX_CHAR_LENGTH], message_db_t* message);
 
-int run_client(){
-    client_start();
-    message_db_t request_message, *response_message;
-    send_request(request_message, response_message);
-}
-
 void process_received(message_db_t receive_message){
     if (receive_message.response_code1 == error){
         printf("\nNo results");

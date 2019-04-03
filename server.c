@@ -7,6 +7,7 @@
 #include <sys/queue.h>
 #include "structures.h"
 #include "messageQueueing.h"
+#include "linkedlist.h"
 
 message_db_t insert_record(
         char name[MAX_CHAR_LENGTH],
@@ -25,17 +26,12 @@ void print_list();
 
 void service_request(message_db_t request_message);
 
-struct node_t {
-    record record;
-    LIST_ENTRY(node_t) nodes;
-};
-
-static LIST_HEAD(head_s, node_t) head;
+struct Node * head;
 
 int run_server(){
     server_start();
-    LIST_INIT(&head);
-
+    head = malloc(sizeof(struct Node));
+    print_list();
 
     while(1){
         message_db_t *receive_message = malloc(sizeof(message_db_t));
@@ -44,6 +40,7 @@ int run_server(){
             continue;
         }
         service_request(*receive_message);
+        print_list();
     }
 }
 
@@ -108,14 +105,14 @@ message_db_t insert_record(
 
     message_db_t message;
 
-    struct node_t * e = malloc(sizeof(struct node_t));
+    struct Node * e = malloc(sizeof(struct Node));
 
-    strcpy(e->record.name, name);
-    strcpy(e->record.department, department);
-    strcpy(e->record.employee_number, employee_number);
-    strcpy(e->record.salary, salary);
+    strcpy(e->data.name, name);
+    strcpy(e->data.department, department);
+    strcpy(e->data.employee_number, employee_number);
+    strcpy(e->data.salary, salary);
 
-    LIST_INSERT_HEAD(&head, e, nodes);
+    insertAfter(head, e);
 
     message.response_code1 = success;
 
@@ -126,19 +123,16 @@ message_db_t check_name(char employee_number[MAX_CHAR_LENGTH]){
     message_db_t message;
     message.response_code1 = error;
 
-    struct node_t * e = malloc(sizeof(struct node_t));
+    struct Node * e = head;
     int response_count = 0;
 
-    // iterate through the list
-    LIST_FOREACH(e, &head, nodes){
-      if(strcmp(employee_number, e->record.employee_number) == 0){
-          record_copy(&message.response_records[response_count], e->record);
-          response_count ++;
-          message.response_code1 = success;
-      }
-        if (response_count>=10){
-            break;
+    while(e != NULL){
+        if(strcmp(employee_number, e->data.employee_number) == 0){
+            record_copy(&message.response_records[response_count], e->data);
+            response_count ++;
+            message.response_code1 = success;
         }
+        e = e->next;
     }
     message.number_of_responses = response_count;
 
@@ -157,20 +151,19 @@ message_db_t check_employee_number(char name[MAX_CHAR_LENGTH]){
     message_db_t message;
     message.response_code1 = error;
 
-    struct node_t * e = malloc(sizeof(struct node_t));
+    struct Node * e = head;
     int response_count = 0;
 
-    // iterate through the list
-    LIST_FOREACH(e, &head, nodes){
-        if(strcmp(name, e->record.name) == 0){
-            record_copy(&message.response_records[response_count], e->record);
+    while(e != NULL){
+        if(strcmp(name, e->data.name) == 0){
+            record_copy(&message.response_records[response_count], e->data);
             response_count ++;
             message.response_code1 = success;
         }
-        if (response_count>=10){
-            break;
-        }
+        e = e->next;
     }
+    // iterate through the list
+    message.number_of_responses = response_count;
     message.number_of_responses = response_count;
 
     return message;
@@ -180,20 +173,18 @@ message_db_t check(char department[MAX_CHAR_LENGTH]) {
     message_db_t message;
     message.response_code1 = error;
 
-    struct node_t * e = malloc(sizeof(struct node_t));
+    struct Node * e = head;
     int response_count = 0;
 
-    // iterate through the list
-    LIST_FOREACH(e, &head, nodes){
-        if(strcmp(department, e->record.department) == 0){
-            record_copy(&message.response_records[response_count], e->record);
+    while(e != NULL){
+        if(strcmp(department, e->data.department) == 0){
+            record_copy(&message.response_records[response_count], e->data);
             response_count ++;
             message.response_code1 = success;
         }
-        if (response_count>=10){
-            break;
-        }
+        e = e->next;
     }
+    // iterate through the list
     message.number_of_responses = response_count;
 
     return message;
@@ -202,21 +193,19 @@ message_db_t delete(char employee_number[MAX_CHAR_LENGTH]){
     message_db_t message;
     message.response_code1 = error;
 
-    struct node_t * e = malloc(sizeof(struct node_t));
+    struct Node * e = head;
     int response_count = 0;
 
-    // iterate through the list
-    LIST_FOREACH(e, &head, nodes){
-        if(strcmp(employee_number, e->record.employee_number) == 0){
-            record_copy(&message.response_records[response_count], e->record);
+    while(e != NULL){
+        if(strcmp(employee_number, e->data.employee_number) == 0){
+            record_copy(&message.response_records[response_count], e->data);
             response_count ++;
             message.response_code1 = success;
 
-            LIST_REMOVE(e, nodes);
-            free(e);
+            e = removeItem(e);
         }
-        if (response_count>=10){
-            break;
+        else{
+            e = e->next;
         }
     }
     message.number_of_responses = response_count;
@@ -232,8 +221,9 @@ void record_copy(record * clone, record original){
 }
 
 void print_list(){
-    struct node_t * e = NULL;
-    LIST_FOREACH(e, &head, nodes){
-        printf("%s", e->record.name);
+    struct Node * e = head;
+    while(e != NULL){
+        printf("%s", e->data.name);
+        e = e->next;
     }
 }

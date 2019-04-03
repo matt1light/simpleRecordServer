@@ -38,3 +38,12 @@ typedef struct {
     long number_of_responses;
     char e;
 } message_db_t;
+
+/* Node of a doubly linked list */
+struct Node {
+    record data;
+    struct Node* next; // Pointer to next node in DLL
+    struct Node* prev; // Pointer to previous node in DLL
+};
+
+
