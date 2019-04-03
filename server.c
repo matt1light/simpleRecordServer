@@ -87,6 +87,7 @@ void service_request(message_db_t request_message){
 }
 
 int count = 0;
+record database[10];
 
 message_db_t insert_record(
         char name[MAX_CHAR_LENGTH],
@@ -94,13 +95,18 @@ message_db_t insert_record(
         char employee_number[MAX_CHAR_LENGTH],
         char salary[MAX_CHAR_LENGTH]) {
 
-    message_db_t message;
+    strcpy(database[count].name, name);
+    strcpy(database[count].department, department);
+    strcpy(database[count].employee_number, employee_number);
+    strcpy(database[count].salary, salary);
 
+    message_db_t message;
+    message.response_code1 = success;
     strcpy(message.response_records[count].name, name);
     strcpy(message.response_records[count].department, department);
     strcpy(message.response_records[count].employee_number, employee_number);
     strcpy(message.response_records[count].salary, salary);
-    message.response_code1 = success;
+
     count += 1;
 
     return message;
@@ -109,8 +115,8 @@ message_db_t insert_record(
 message_db_t check_name(char employee_number[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(message.response_records[i].employee_number == employee_number) {
-      strcpy(message.e, response_records[i].name);
+    if(database[i].employee_number == employee_number) {
+      strcpy(message.response_records[count].name, database[i].name);
       message.response_code1 = success;
     }
     else {
@@ -122,8 +128,8 @@ message_db_t check_name(char employee_number[MAX_CHAR_LENGTH]){
 message_db_t check_department(char employee_number[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(message.response_records[i].employee_number == employee_number) {
-      strcpy(message.e, response_records[i].department);
+    if(database[i].employee_number == employee_number) {
+      strcpy(message.response_records[count].department, database[i].department);
       message.response_code1 = success;
     }
     else {
@@ -135,8 +141,8 @@ message_db_t check_department(char employee_number[MAX_CHAR_LENGTH]){
 message_db_t check_salary(char employee_number[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(message.response_records[i].employee_number == employee_number) {
-      strcpy(message.e, response_records[i].salary);
+    if(database[i].employee_number == employee_number) {
+      strcpy(message.response_records[count].salary, database[i].salary);
       message.response_code1 = success;
     }
     else {
@@ -148,8 +154,8 @@ message_db_t check_salary(char employee_number[MAX_CHAR_LENGTH]){
 message_db_t check_employee_number(char name[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(message.response_records[i].name == name) {
-      strcpy(message.e, response_records[i].employee_number);
+    if(database[i].name == name) {
+      strcpy(message.response_records[count].employee_number, database[i].employee_number);
       message.response_code1 = success;
     }
     else {
@@ -163,13 +169,14 @@ message_db_t check(char department[MAX_CHAR_LENGTH]) {
   char employeeNumbers[100];
 
   for(int i = 0; i <= count; i++) {
-    if(message.response_records[i].department == department) {
-      strcpy(employeeNumbers[i], message.response_records[i].employee_number);
-      message.response_code1 = success;
+    if(database[i].department == department) {
+      strcpy(message.response_records[i].employee_number, database[i].employee_number);
+      message.number_of_responses += 1;
     }
     else {
       message.response_code1 = error;
     }
+    message.response_code1 = success;
   }
 
   return message;
@@ -177,9 +184,9 @@ message_db_t check(char department[MAX_CHAR_LENGTH]) {
 message_db_t delete(char employee_number[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(message.response_records[i].employee_number == employee_number) {
+    if(database[i].employee_number == employee_number) {
       for (int c = i - 1; c < count - 1; c++) {
-        message.response_records[c] = message.response_records[c+1];
+        database[c] = database[c+1];
         message.response_code1 = success;
       }
     }
