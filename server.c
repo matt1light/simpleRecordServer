@@ -33,21 +33,17 @@ struct node_t {
 static LIST_HEAD(head_s, node_t) head;
 
 int run_server(){
-    //TODO this should be removed, it's currently just cleaning up
-    server_ending();
     server_start();
     LIST_INIT(&head);
 
 
     while(1){
-        message_db_t *receive_message = (message_db_t*) malloc(sizeof(message_db_t));
+        message_db_t *receive_message = malloc(sizeof(message_db_t));
         int i = read_request_from_client(receive_message);
         if (i == 0){
             continue;
         }
         service_request(*receive_message);
-        i = 0;
-        //print_list();
     }
 }
 
@@ -55,10 +51,10 @@ void service_request(message_db_t request_message){
     // read message from client
     message_db_t response_message;
 
-    request_code_e type = request_message.request_type;
+    int type = request_message.request_type;
 
     switch(type){
-        case insert_record_s:
+        case 1:
             response_message = insert_record(
                     request_message.request_record.name,
                     request_message.request_record.department,
@@ -66,32 +62,32 @@ void service_request(message_db_t request_message){
                     request_message.request_record.salary
             );
             break;
-        case check_name_s:
+        case 2:
             response_message = check_name(
                     request_message.request_record.employee_number
             );
             break;
-        case check_department_s:
+        case 3:
             response_message = check_department(
                     request_message.request_record.employee_number
             );
             break;
-        case check_salary_s:
+        case 4:
             response_message = check_salary(
                     request_message.request_record.employee_number
             );
             break;
-        case check_employee_number_s:
+        case 5:
             response_message = check_employee_number(
                     request_message.request_record.name
             );
             break;
-        case check_s:
+        case 6:
             response_message = check(
                     request_message.request_record.department
             );
             break;
-        case delete_s:
+        case 7:
             response_message = delete(
                     request_message.request_record.employee_number
             );
@@ -140,6 +136,9 @@ message_db_t check_name(char employee_number[MAX_CHAR_LENGTH]){
           response_count ++;
           message.response_code1 = success;
       }
+        if (response_count>=10){
+            break;
+        }
     }
     message.number_of_responses = response_count;
 
@@ -168,6 +167,9 @@ message_db_t check_employee_number(char name[MAX_CHAR_LENGTH]){
             response_count ++;
             message.response_code1 = success;
         }
+        if (response_count>=10){
+            break;
+        }
     }
     message.number_of_responses = response_count;
 
@@ -187,6 +189,9 @@ message_db_t check(char department[MAX_CHAR_LENGTH]) {
             record_copy(&message.response_records[response_count], e->record);
             response_count ++;
             message.response_code1 = success;
+        }
+        if (response_count>=10){
+            break;
         }
     }
     message.number_of_responses = response_count;
@@ -209,7 +214,9 @@ message_db_t delete(char employee_number[MAX_CHAR_LENGTH]){
 
             LIST_REMOVE(e, nodes);
             free(e);
-            e = NULL;
+        }
+        if (response_count>=10){
+            break;
         }
     }
     message.number_of_responses = response_count;

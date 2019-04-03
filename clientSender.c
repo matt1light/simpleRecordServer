@@ -40,7 +40,7 @@ int run_sender(){
   message_db_t * receive_message = (message_db_t*)malloc(sizeof(message_db_t));
 
   while(1){
-      printf("What would you like to do:\n\t1) insert\n\t2) check name\n\t3) check department\n\t4) check salary\n\t5) check employee number\n\t6) check\n\t7) delete\n");
+      printf("\n\n\nWhat would you like to do:\n\t1) insert\n\t2) check name\n\t3) check department\n\t4) check salary\n\t5) check employee number\n\t6) check\n\t7) delete\n");
 
       if (fgets(buf, 12, stdin) == NULL){
         fprintf(stderr, "read failed\n");
@@ -85,6 +85,7 @@ int run_sender(){
         return(1);
     }
     send_request(*message, receive_message);
+    receive_message->request_type = message->request_type;
     process_received(*receive_message);
   }
 }
