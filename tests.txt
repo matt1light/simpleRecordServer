@@ -1,0 +1,226 @@
+This test contains at least two demonstrations of every method in the system
+
+$ ./main
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+1
+Name: Mattias
+Employee Number: 1   
+Department: Accounting
+Salary: 10000
+
+Record successfully added
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+1
+Name: George
+Employee Number: 2
+Department: Sales
+Salary: 2000
+
+Record successfully added
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+2
+Employee Number: 1
+
+Name: Mattias
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+2
+Employee Number: 2
+
+Name: George
+
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+3
+Employee Number: 1
+
+Department: Accounting
+
+
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+3
+Employee Number: 2
+
+Department: Sales
+
+
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+4
+Employee Number: 1
+
+Salary: 10000
+
+
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+4
+Employee Number: 2
+
+Salary: 2000
+
+
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+5
+Name: Mattias
+
+Employee number: 1
+
+
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+5
+Name: George
+
+Employee number: 2
+
+
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+6
+Department: Accounting
+
+Employee number: 1
+
+
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+6
+Department: Sales
+
+Employee number: 2
+
+
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+7
+Employee Number: 1
+
+Employee 1
+ deleted successfully
+
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+2
+Employee Number: 1
+
+No results
+
+
+What would you like to do:
+	1) insert
+	2) check name
+	3) check department
+	4) check salary
+	5) check employee number
+	6) check
+	7) delete
+2
+Employee Number: 2
+
+Name: George
+
+

@@ -46,8 +46,6 @@ int run_sender(FILE *stream){
         fprintf(stderr, "read failed\n");
         return 1;
       }
-      printf("%s", buf);
-      fflush(stdout);
 
       sscanf(buf, "%d", command);
 

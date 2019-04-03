@@ -31,7 +31,6 @@ struct Node * head;
 int run_server(){
     server_start();
     head = malloc(sizeof(struct Node));
-    print_list();
 
     while(1){
         message_db_t *receive_message = malloc(sizeof(message_db_t));
@@ -40,7 +39,6 @@ int run_server(){
             continue;
         }
         service_request(*receive_message);
-        print_list();
     }
 }
 
