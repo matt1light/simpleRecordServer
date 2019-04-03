@@ -8,8 +8,8 @@
 #include <stdio.h>
 
 
-#define SERVER_MQUEUE 7171
-#define CLIENT_MQUEUE 7272
+#define SERVER_MQUEUE 2234
+#define CLIENT_MQUEUE 4322
 
 struct msg_passed {
     long int msg_key;
@@ -25,7 +25,7 @@ int server_start() {
     if (serv_qid == -1) return (0);
 
 
-    cli_qid = msgget((key_t) SERVER_MQUEUE, 0666 | IPC_CREAT);
+    cli_qid = msgget((key_t) CLIENT_MQUEUE, 0666 | IPC_CREAT);
     if (cli_qid == -1) return (0);
 
     return (1);
@@ -71,7 +71,10 @@ int client_start(){
     if (serv_qid == -1) return(0);
 
     cli_qid = msgget((key_t)CLIENT_MQUEUE, 0666);
-    if (cli_qid == -1) return(0);
+    if (cli_qid == -1) {
+        perror("");
+        return(0);
+    }
     return(1);
 }
 

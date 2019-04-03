@@ -31,10 +31,10 @@ typedef struct {
 
 typedef struct {
     pid_t client_pid;
-    request_code_e request_type;
+    long request_type;
     response_code_e response_code1;
     record request_record;
     record response_records[MAX_RESPONSES];
-    int number_of_responses;
+    long number_of_responses;
     char e;
 } message_db_t;
