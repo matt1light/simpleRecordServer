@@ -1,0 +1,118 @@
+int count = 0; //count to hold position in array and length
+record database[10]; //db to hold all employees
+
+insert_record(name, department, employee_number, salary) {
+    //add info to db
+    database[count].name
+    database[count].department
+    database[count].employee_number
+    database[count].salary
+    count += 1; //increment count after employee is added
+
+    //create success message to send containing all employee info
+    response_code = success
+    response_records[count].name
+    response_records[count].department
+    response_records[count].employee_number
+    response_records[count].salary
+
+    return message;
+}
+
+check_name(employee_number) {
+  //loop through all employees in db
+  for(int i = 0; i <= count; i++) {
+    //check if employee number in db corresponds to requested employee number
+    if(employee_number in db == employee_number requested) {
+      //name of requested employee number
+      response_records[count].name
+      response_code = success
+    }
+    else {
+      response_code = error
+    }
+  }
+  return message;
+}
+check_department(employee_number) {
+  //loop through all employees in db
+  for(int i = 0; i <= count; i++) {
+    //check if employee number in db corresponds to requested employee number
+    if(employee_number in db == employee_number requested) {
+      //department of requested employee number
+      response_records[count].department
+      response_code = success
+    }
+    else {
+      response_code = error
+    }
+  }
+  return message;
+}
+check_salary(employee_number) {
+//loop through all employees in db
+for(int i = 0; i <= count; i++) {
+  //check if employee number in db corresponds to requested employee number
+  if(employee_number in db == employee_number requested) {
+    //salary of requested employee number
+    response_records[count].salary
+    response_code = success
+    }
+    else {
+      response_code = error
+    }
+  }
+  return message;
+}
+check_employee_number(name){
+  //loop through all employees in db
+  for(int i = 0; i <= count; i++) {
+    //check if employee name in db corresponds to requested employee name
+    if(name in db == name requested) {
+    //employee number of requested name
+    response_records[count].employee_number
+    response_code = success
+    }
+    else {
+      response_code = error
+    }
+  }
+  return message;
+}
+check(department) {
+  char employeeNumbers[100];
+  //loop through all employees in db
+  for(int i = 0; i <= count; i++) {
+    //check if department in db corresponds to requested department
+    if(department in db == department requested) {
+      //employee number of requested department
+      response_records[i].employee_number
+      number_of_responses += 1
+    }
+    else {
+      response_code = error
+    }
+    response_code = success
+  }
+  return message;
+}
+
+delete(employee_number) {
+  //loop through all employees in db
+  for(int i = 0; i <= count; i++) {
+    //check if employee number in db corresponds to requested employee number
+    if(employee number in db == employee_number requested) {
+      //delete it and shift elements
+      for(int c = i - 1; c < count - 1; c++) {
+        db[c] = db[c+1];
+        response_code = success
+      }
+    }
+    else {
+      response_code = error
+    }
+  }
+  count -= 1
+
+  return message
+}
