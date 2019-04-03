@@ -87,10 +87,6 @@ void service_request(message_db_t request_message){
 }
 
 int count = 0;
-record records[100];
-
-// message_db_t* message
-// message -> client_pid = getpid();
 
 message_db_t insert_record(
         char name[MAX_CHAR_LENGTH],
@@ -98,21 +94,27 @@ message_db_t insert_record(
         char employee_number[MAX_CHAR_LENGTH],
         char salary[MAX_CHAR_LENGTH]) {
 
-    strcpy(records[count].name, name);
-    strcpy(records[count].department, department);
-    strcpy(records[count].employee_number, employee_number);
-    strcpy(records[count].salary, salary);
+    message_db_t message;
+
+    strcpy(message.response_records[count].name, name);
+    strcpy(message.response_records[count].department, department);
+    strcpy(message.response_records[count].employee_number, employee_number);
+    strcpy(message.response_records[count].salary, salary);
+    message.response_code1 = success;
     count += 1;
 
-    message_db_t message;
     return message;
 }
 
 message_db_t check_name(char employee_number[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(records[i].employee_number == employee_number) {
-      message.e = records[i].name;
+    if(message.response_records[i].employee_number == employee_number) {
+      strcpy(message.e, response_records[i].name);
+      message.response_code1 = success;
+    }
+    else {
+      message.response_code1 = error;
     }
   }
   return message;
@@ -120,8 +122,12 @@ message_db_t check_name(char employee_number[MAX_CHAR_LENGTH]){
 message_db_t check_department(char employee_number[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(records[i].employee_number == employee_number) {
-      message.e = records[i].department;
+    if(message.response_records[i].employee_number == employee_number) {
+      strcpy(message.e, response_records[i].department);
+      message.response_code1 = success;
+    }
+    else {
+      message.response_code1 = error;
     }
   }
   return message;
@@ -129,8 +135,12 @@ message_db_t check_department(char employee_number[MAX_CHAR_LENGTH]){
 message_db_t check_salary(char employee_number[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(records[i].employee_number == employee_number) {
-      message.e = records[i].salary;
+    if(message.response_records[i].employee_number == employee_number) {
+      strcpy(message.e, response_records[i].salary);
+      message.response_code1 = success;
+    }
+    else {
+      message.response_code1 = error;
     }
   }
   return message;
@@ -138,27 +148,46 @@ message_db_t check_salary(char employee_number[MAX_CHAR_LENGTH]){
 message_db_t check_employee_number(char name[MAX_CHAR_LENGTH]){
   message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(records[i].name == name) {
-      message.e = records[i].employee_number;
+    if(message.response_records[i].name == name) {
+      strcpy(message.e, response_records[i].employee_number);
+      message.response_code1 = success;
+    }
+    else {
+      message.response_code1 = error;
     }
   }
   return message;
 }
-message_db_t check(char department[MAX_CHAR_LENGTH]){
-  perror("Check not implemented");
+message_db_t check(char department[MAX_CHAR_LENGTH]) {
   message_db_t message;
+  char employeeNumbers[100];
+
+  for(int i = 0; i <= count; i++) {
+    if(message.response_records[i].department == department) {
+      strcpy(employeeNumbers[i], message.response_records[i].employee_number);
+      message.response_code1 = success;
+    }
+    else {
+      message.response_code1 = error;
+    }
+  }
+
   return message;
 }
 message_db_t delete(char employee_number[MAX_CHAR_LENGTH]){
+  message_db_t message;
   for(int i = 0; i <= count; i++) {
-    if(records[i].employee_number == employee_number) {
+    if(message.response_records[i].employee_number == employee_number) {
       for (int c = i - 1; c < count - 1; c++) {
-        records[c] = records[c+1];
+        message.response_records[c] = message.response_records[c+1];
+        message.response_code1 = success;
       }
+    }
+    else {
+      message.response_code1 = error;
     }
   }
   count -= 1;
 
-  message_db_t message;
   return message;
 }
